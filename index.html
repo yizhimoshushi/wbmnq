@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络情绪释放模拟器 - 安全的情感宣泄空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(100, 100, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 100, 100, 0.05) 0%, transparent 20%);
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-height: 95vh;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border-radius: 16px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #60a5fa;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
+        }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
+            border-left: 5px solid #fbbf24;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #475569;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .output-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #475569;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #475569;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 18px;
+            background-color: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 12px;
+            color: #f1f5f9;
+            font-size: 1.1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+        
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .clear-btn {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .clear-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(100, 116, 139, 0.4);
+        }
+        
+        .response-box {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 250px;
+            border: 2px dashed #475569;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .response-item {
+            background: rgba(51, 65, 85, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease;
+            border-left: 5px solid #10b981;
+        }
+        
+        .user-text {
+            color: #f8fafc;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .bot-response {
+            color: #86efac;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .bot-response i {
+            color: #10b981;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            border: 1px solid #475569;
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: #60a5fa;
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: auto;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            border: 1px solid #475569;
+        }
+        
+        .resources {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .resources h3 {
+            color: #fbbf24;
+            margin-bottom: 15px;
+        }
+        
+        .resources ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .resources li {
+            padding: 10px 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .resources a {
+            color: #60a5fa;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .resources a:hover {
+            text-decoration: underline;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            button {
+                padding: 12px 20px;
+            }
+        }
+        
+        .data-notice {
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 5px solid #22c55e;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .data-notice i {
+            font-size: 2rem;
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> 网络情绪释放模拟器</h1>
+            <p class="subtitle">安全的情感宣泄空间 - 所有内容仅存在于当前会话，刷新页面即消失</p>
+            
+            <div class="warning-box">
+                <p><strong><i class="fas fa-exclamation-triangle"></i> 重要提醒：</strong> 本网站是一个模拟环境，旨在为用户提供一个安全的情绪释放空间。所有互动都是模拟的，不会涉及真实人物。如果您感到愤怒、沮丧或情绪低落，建议同时寻求专业心理支持。</p>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <section class="input-section">
+                <h2><i class="fas fa-keyboard"></i> 表达您的情绪</h2>
+                <p style="margin-bottom: 15px; color: #94a3b8;">在这里写下您想说的话，点击"释放情绪"按钮，会收到模拟的"确实"回应。</p>
+                
+                <textarea id="userInput" placeholder="输入您想表达的情绪或想法...（示例：今天真是糟糕的一天！）"></textarea>
+                
+                <div class="buttons">
+                    <button class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> 释放情绪
+                    </button>
+                    <button class="clear-btn" id="clearBtn">
+                        <i class="fas fa-eraser"></i> 清空输入
+                    </button>
+                </div>
+                
+                <div class="data-notice">
+                    <i class="fas fa-database"></i>
+                    <div>
+                        <h3>数据安全保证</h3>
+                        <p>您的输入内容不会保存到任何服务器或浏览器存储中。所有数据仅存在于当前页面会话中，刷新页面或关闭标签页后所有内容将永久消失。</p>
+                    </div>
+          
