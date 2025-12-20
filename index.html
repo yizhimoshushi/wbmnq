@@ -1,349 +1,710 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网络情绪释放模拟器 - 安全的情感宣泄空间</title>
+    <title>💢 极简网暴模拟器</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
-            background-color: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1033 0%, #2d1b69 100%);
+            color: #c4b5fd;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(100, 100, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 100, 100, 0.05) 0%, transparent 20%);
+            line-height: 1.5;
         }
-        
+
         .container {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            min-height: 95vh;
-        }
-        
-        header {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border-radius: 16px;
-            border: 1px solid #334155;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-        }
-        
-        h1 {
-            color: #60a5fa;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
-        }
-        
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .warning-box {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
-            border-left: 5px solid #fbbf24;
-            padding: 18px;
-            border-radius: 10px;
-            margin-top: 15px;
-            font-size: 1rem;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        
-        .input-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #475569;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .output-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #475569;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        h2 {
-            color: #38bdf8;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #475569;
-        }
-        
-        textarea {
             width: 100%;
-            min-height: 200px;
-            padding: 18px;
-            background-color: #1e293b;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            color: #f1f5f9;
-            font-size: 1.1rem;
-            resize: vertical;
-            transition: border-color 0.3s;
-            margin-bottom: 20px;
+            max-width: 600px;
+            background: rgba(46, 29, 105, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(126, 105, 171, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: auto;
         }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-        }
-        
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        button {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            flex: 1;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(59, 130, 246, 0.4);
-        }
-        
-        .clear-btn {
-            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-            color: white;
-            flex: 1;
-        }
-        
-        .clear-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(100, 116, 139, 0.4);
-        }
-        
-        .response-box {
-            background-color: #1e293b;
-            border-radius: 12px;
-            padding: 20px;
-            min-height: 250px;
-            border: 2px dashed #475569;
-            overflow-y: auto;
-            max-height: 400px;
-        }
-        
-        .response-item {
-            background: rgba(51, 65, 85, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            animation: fadeIn 0.5s ease;
-            border-left: 5px solid #10b981;
-        }
-        
-        .user-text {
-            color: #f8fafc;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .bot-response {
-            color: #86efac;
-            font-style: italic;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .bot-response i {
-            color: #10b981;
-        }
-        
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .feature {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            flex: 1;
-            min-width: 200px;
+
+        /* 头部样式 */
+        .header {
             text-align: center;
-            border: 1px solid #475569;
-            transition: transform 0.3s;
+            padding: 15px 0 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(126, 105, 171, 0.3);
         }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-            border-color: #60a5fa;
-        }
-        
-        .feature i {
+
+        .logo {
             font-size: 2.5rem;
-            color: #60a5fa;
+            margin-bottom: 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .title {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #fca5a5, #f97316, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #a78bfa;
+            font-size: 0.9rem;
             margin-bottom: 10px;
         }
-        
-        footer {
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 15px 0;
+            font-size: 0.8rem;
             text-align: center;
-            padding: 25px;
-            margin-top: auto;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 16px;
-            border: 1px solid #475569;
+            line-height: 1.4;
         }
-        
-        .resources {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
+
+        .warning-box i {
+            color: #ef4444;
+            margin-right: 6px;
+            font-size: 0.9rem;
         }
-        
-        .resources h3 {
-            color: #fbbf24;
-            margin-bottom: 15px;
-        }
-        
-        .resources ul {
-            list-style: none;
+
+        /* 情绪标签 */
+        .emotion-tags {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 8px;
+            margin: 15px 0;
         }
-        
-        .resources li {
-            padding: 10px 20px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 30px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+
+        .emotion-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            user-select: none;
         }
-        
-        .resources a {
-            color: #60a5fa;
-            text-decoration: none;
+
+        .emotion-tag:hover {
+            transform: translateY(-2px);
+        }
+
+        .emotion-tag.selected {
+            transform: scale(1.05);
+            box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .emotion-tag.angry {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .emotion-tag.frustrated {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fdba74;
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .emotion-tag.sad {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .emotion-tag.anxious {
+            background: rgba(168, 85, 247, 0.2);
+            color: #d8b4fe;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        /* 输入区域 */
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 1rem;
+            color: #c4b5fd;
+            margin-bottom: 10px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
-        .resources a:hover {
-            text-decoration: underline;
+
+        .input-label i {
+            color: #ef4444;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            button {
-                padding: 12px 20px;
-            }
-        }
-        
-        .data-notice {
-            background: rgba(34, 197, 94, 0.1);
-            border-radius: 10px;
+
+        #textInput {
+            width: 100%;
+            min-height: 120px;
             padding: 15px;
-            margin-top: 20px;
-            border-left: 5px solid #22c55e;
+            background: rgba(126, 105, 171, 0.2);
+            border: 2px solid rgba(126, 105, 171, 0.5);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s;
+            line-height: 1.5;
+        }
+
+        #textInput:focus {
+            outline: none;
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            background: rgba(126, 105, 171, 0.3);
+        }
+
+        .input-hint {
+            color: #a78bfa;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* 控制按钮 */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            min-width: 120px;
+            min-height: 45px;
+            user-select: none;
         }
-        
-        .data-notice i {
-            font-size: 2rem;
-            color: #22c55e;
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        /* 回复区域 */
+        .replies-section {
+            margin-top: 25px;
+            border-top: 1px solid rgba(126, 105, 171, 0.3);
+            padding-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .replies-label {
+            display: block;
+            font-size: 1rem;
+            color: #c4b5fd;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .replies-label i {
+            color: #3b82f6;
+        }
+
+        .reply-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .reply-item {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.9rem;
+            color: #ddd6fe;
+            position: relative;
+            padding-left: 45px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .reply-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            width: 25px;
+            height: 25px;
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .reply-item.bot-reply::before {
+            content: '🤖';
+            background: rgba(34, 197, 94, 0.2);
+        }
+
+        .reply-item.user-reply::before {
+            content: '👤';
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .reply-author {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #c4b5fd;
+            font-size: 0.85rem;
+        }
+
+        .reply-content {
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+
+        .reply-time {
+            font-size: 0.7rem;
+            color: #a78bfa;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* 自动回复提示 */
+        .auto-reply-notice {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 15px;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #93c5fd;
+        }
+
+        .auto-reply-notice i {
+            margin-right: 5px;
+            color: #3b82f6;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 15px 0 0;
+            margin-top: 20px;
+            color: #7e69ab;
+            border-top: 1px solid rgba(126, 105, 171, 0.3);
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .footer a {
+            color: #c4b5fd;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                min-width: 100px;
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            #textInput {
+                min-height: 100px;
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            
+            .replies-section {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1><i class="fas fa-shield-alt"></i> 网络情绪释放模拟器</h1>
-            <p class="subtitle">安全的情感宣泄空间 - 所有内容仅存在于当前会话，刷新页面即消失</p>
+        <!-- 头部 -->
+        <div class="header">
+            <div class="logo">💢</div>
+            <h1 class="title">极简网暴模拟器</h1>
+            <p class="subtitle">即时宣泄 - 无人受伤的虚拟空间</p>
             
             <div class="warning-box">
-                <p><strong><i class="fas fa-exclamation-triangle"></i> 重要提醒：</strong> 本网站是一个模拟环境，旨在为用户提供一个安全的情绪释放空间。所有互动都是模拟的，不会涉及真实人物。如果您感到愤怒、沮丧或情绪低落，建议同时寻求专业心理支持。</p>
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>安全提示：</strong>所有内容仅存在于当前页面，关闭即消失
             </div>
-        </header>
-        
-        <div class="main-content">
-            <section class="input-section">
-                <h2><i class="fas fa-keyboard"></i> 表达您的情绪</h2>
-                <p style="margin-bottom: 15px; color: #94a3b8;">在这里写下您想说的话，点击"释放情绪"按钮，会收到模拟的"确实"回应。</p>
-                
-                <textarea id="userInput" placeholder="输入您想表达的情绪或想法...（示例：今天真是糟糕的一天！）"></textarea>
-                
-                <div class="buttons">
-                    <button class="submit-btn" id="submitBtn">
-                        <i class="fas fa-paper-plane"></i> 释放情绪
-                    </button>
-                    <button class="clear-btn" id="clearBtn">
-                        <i class="fas fa-eraser"></i> 清空输入
-                    </button>
+        </div>
+
+        <!-- 情绪标签选择 -->
+        <div class="emotion-tags">
+            <span class="emotion-tag angry selected" data-emotion="愤怒">😠 愤怒</span>
+            <span class="emotion-tag frustrated" data-emotion="沮丧">😤 沮丧</span>
+            <span class="emotion-tag sad" data-emotion="伤心">😢 伤心</span>
+            <span class="emotion-tag anxious" data-emotion="焦虑">😰 焦虑</span>
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <label class="input-label">
+                <i class="fas fa-pen"></i> 在这里写下你想说的话
+            </label>
+            <textarea id="textInput" placeholder="释放你的情绪... 放心，这里的一切都只存在于此刻。"></textarea>
+            <div class="input-hint">
+                输入后点击"发布宣泄"按钮，系统会自动间隔回复
+            </div>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button class="btn" id="publishBtn">
+                <i class="fas fa-paper-plane"></i> 发布宣泄
+            </button>
+            <button class="btn btn-purple" id="clearBtn">
+                <i class="fas fa-eraser"></i> 清空所有
+            </button>
+        </div>
+
+        <!-- 回复区域 -->
+        <div class="replies-section">
+            <label class="replies-label">
+                <i class="fas fa-comments"></i> 自动回复区
+            </label>
+            <div class="reply-list" id="replyList">
+                <!-- 回复内容将动态添加到这里 -->
+                <div class="reply-item bot-reply">
+                    <div class="reply-author">🤖 系统助手</div>
+                    <div class="reply-content">在这里写下你想说的话，系统会自动间隔几秒回复你。</div>
+                    <div class="reply-time">刚刚</div>
                 </div>
+            </div>
+            
+            <div class="auto-reply-notice">
+                <i class="fas fa-robot"></i> 系统每 3-8 秒会自动生成一条虚拟回复
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>💢 极简网暴模拟器 | 完全离线的虚拟宣泄空间</p>
+            <p>所有内容仅存在于当前页面，刷新或关闭页面后数据将消失</p>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentEmotion = '愤怒';
+        let replies = [];
+        let autoReplyInterval = null;
+        let lastPostTime = 0;
+        
+        // DOM 加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置情绪标签点击事件
+            document.querySelectorAll('.emotion-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.emotion-tag').forEach(t => t.classList.remove('selected'));
+                    this.classList.add('selected');
+                    currentEmotion = this.getAttribute('data-emotion');
+                });
+            });
+            
+            // 设置按钮点击事件
+            document.getElementById('publishBtn').addEventListener('click', publishPost);
+            document.getElementById('clearBtn').addEventListener('click', clearAll);
+            
+            // 设置键盘快捷键
+            document.getElementById('textInput').addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    publishPost();
+                }
+            });
+            
+            // 初始化回复数组
+            replies = [];
+            
+            // 初始化自动回复间隔
+            startAutoReply();
+            
+            // 添加初始系统消息
+            addSystemMessage("欢迎使用极简网暴模拟器！在这里写下你想说的话，系统会自动回复你。");
+        });
+        
+        // 发布帖子
+        function publishPost() {
+            const inputText = document.getElementById('textInput').value.trim();
+            
+            if (!inputText) {
+                showMessage('请输入一些文字再发布！', 'error');
+                document.getElementById('textInput').focus();
+                return;
+            }
+            
+            // 记录发布时间
+            lastPostTime = Date.now();
+            
+            // 添加用户帖子到回复列表
+            addUserPost(inputText);
+            
+            // 清空输入框
+            document.getElementById('textInput').value = '';
+            
+            // 显示成功消息
+            showMessage('宣泄已发布！系统将自动回复...', 'success');
+            
+            // 立即添加一条自动回复（不等待间隔）
+            setTimeout(() => {
+                addAutoReply();
+            }, 1000);
+        }
+        
+        // 添加用户帖子
+        function addUserPost(text) {
+            const post = {
+                id: Date.now(),
+                author: '匿名用户',
+                content: text.substring(0, 150) + (text.length > 150 ? '...' : ''),
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                isBot: false,
+                isSystem: false
+            };
+            
+            replies.push(post);
+            renderReplies();
+        }
+        
+        // 添加系统消息
+        function addSystemMessage(text) {
+            const message = {
+                id: Date.now(),
+                author: '🤖 系统助手',
+                content: text,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                isBot: true,
+                isSystem: true
+            };
+            
+            replies.push(message);
+            renderReplies();
+        }
+        
+        // 添加自动回复
+        function addAutoReply() {
+            const botReplies = [
+                "确实。",
+                "有道理。",
+                "我也这么觉得。",
+                "理解你的感受。",
+                "确实让人生气。",
+                "这种事情真的让人无语。",
+                "你需要好好放松一下。",
+                "发泄出来就好了。",
+                "我懂这种感觉。",
+                "你说得对。",
+                "支持你。",
+                "抱抱你。",
+                "别难过了。",
+                "明天会更好的。",
+                "你不是一个人。",
+                "同感。",
+                "深有体会。",
+                "完全理解。",
+                "我也遇到过。",
+                "太真实了。"
+            ];
+            
+            const botNames = ["网络路人", "吃瓜群众", "路过网友", "匿名支持者", "虚拟朋友", "AI伙伴", "在线听众"];
+            
+            const reply = {
+                id: Date.now() + Math.random(),
+                author: botNames[Math.floor(Math.random() * botNames.length)],
+                content: botReplies[Math.floor(Math.random() * botReplies.length)],
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                isBot: true,
+                isSystem: false
+            };
+            
+            replies.push(reply);
+            renderReplies();
+            
+            // 偶尔添加第二条回复（20%概率）
+            if (Math.random() < 0.2) {
+                setTimeout(() => {
+                    const secondReply = {
+                        id: Date.now() + Math.random(),
+                        author: botNames[Math.floor(Math.random() * botNames.length)],
+                        content: botReplies[Math.floor(Math.random() * botReplies.length)],
+                        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                        isBot: true,
+                        isSystem: false
+                    };
+                    
+                    replies.push(secondReply);
+                    renderReplies();
+                }, 1000 + Math.random() * 2000);
+            }
+        }
+        
+        // 开始自动回复间隔
+        function startAutoReply() {
+            // 清除现有间隔
+            if (autoReplyInterval) {
+                clearInterval(autoReplyInterval);
+            }
+            
+            // 设置自动回复间隔（3-8秒随机）
+            autoReplyInterval = setInterval(() => {
+                // 只有在用户发布过内容后才自动回复
+                if (lastPostTime > 0 && replies.length > 0) {
+                    // 30%概率触发自动回复
+                    if (Math.random() < 0.3) {
+                        addAutoReply();
+                    }
+                }
+            }, 3000 + Math.random() * 5000); // 3-8秒间隔
+        }
+        
+        // 渲染回复列表
+        function renderReplies() {
+            const replyList = document.getElementById('replyList');
+            replyList.innerHTML = '';
+            
+            // 只显示最近的10条回复
+            const recentReplies = replies.slice(-10);
+            
+            recentReplies.forEach(reply => {
+                const replyElement = document.createElement('div');
+                replyElement.className = `reply-item ${reply.isBot ? 'bot-reply' : 'user-reply'}`;
+                if (reply.isSystem) {
+                    replyElement.style.background = 'rgba(59, 130, 246, 0.15)';
+                    replyElement.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+                }
                 
-                <div class="data-notice">
-                    <i class="fas fa-database"></i>
-                    <div>
-                        <h3>数据安全保证</h3>
-                        <p>您的输入内容不会保存到任何服务器或浏览器存储中。所有数据仅存在于当前页面会话中，刷新页面或关闭标签页后所有内容将永久消失。</p>
-                    </div>
-          
+                replyElement.innerHTML = `
+                    <div class="reply-author">${reply.author}</div>
+                    <div class="reply-content">${reply.content}</div>
+                    <div class="reply-time">${reply.time}</div>
+                `;
+                
+                replyList.appendChild(replyElement);
+            });
+            
+            // 滚动到最新回复
+            replyList.scrollTop = replyList.scrollHeight;
+        }
+        
+        // 清空所有内容
+        function clearAll() {
+            if (confirm('确定要清空所有内容吗？这将清除所有输入和回复。')) {
+                document.getElementById('textInput').value = '';
+                replies = [];
+                lastPostTime = 0;
+                renderReplies();
+                
+                // 添加系统提示
+                addSystemMessage("所有内容已清空！请开始新的宣泄吧。");
+                
+                showMessage('所有内容已清空！', 'success');
+            }
+        }
+        
+        // 显示消息提示
+        function showMessage(text, type) {
+            // 创建一个临时消息元素
+            const message = document.createElement('div');
+            message.textContent = text;
+            message.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: fadeInOut 3s ease;
+                font-size: 0.9rem;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #10b981 0%, #059669 100%);' : 
+                  type === 'error' ? 'background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);' : 
+                  'background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);'}
+            `;
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
